@@ -12,19 +12,19 @@ import VueRouter from 'vue-router';
 
 window.Vue.use(VueRouter);
 
-import CompaniesIndex from './components/places/PlacesIndex.vue';
-import CompaniesCreate from './components/places/PlacesCreate.vue';
-import CompaniesEdit from './components/places/PlacesEdit.vue';
+import PlacesIndex from './components/places/PlacesIndex.vue';
+import PlacesCreate from './components/places/PlacesCreate.vue';
+import PlacesEdit from './components/places/PlacesEdit.vue';
 
 const routes = [
     {
         path: '/',
-        components: {
-            companiesIndex: PlacesIndex
+        components:  {
+            placesIndex: PlacesIndex
         }
     },
-    {path: '/admin/companies/create', component: PlacesCreate, name: 'createCompany'},
-    {path: '/admin/companies/edit/:id', component: PlacesEdit, name: 'editCompany'},
+    {path: '/admin/places/create', component: PlacesCreate, name: 'createPlace'},
+    {path: '/admin/places/edit/:id', component: PlacesEdit, name: 'editPlace'},
 ];
 
 const router = new VueRouter({ routes });
@@ -36,7 +36,6 @@ const router = new VueRouter({ routes });
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('places-index', require('./components/places/PlacesIndex.vue'));
 
-const app = new Vue({
-    el: '#app'
-});
+const app = new Vue({ router }).$mount('#app');

@@ -1,11 +1,74 @@
-<template>
 
+<template>
+    <div>
+        <div class="form-group">
+            <router-link :to="{name: 'createPlace'}" class="btn btn-success">Create new place</router-link>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Places list</div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Visited</th>
+                        <th width="100">&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="place, index in places">
+                        <td>{{ place.name }}</td>
+                        <td>{{ place.visited }}</td>
+                        <td>
+                            <router-link :to="{name: 'editPlace', params: {id: place.id}}" class="btn btn-xs btn-default">
+                                Edit
+                            </router-link>
+                            <a href="#"
+                               class="btn btn-xs btn-danger"
+                               v-on:click="deleteEntry(place.id, index)">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
     export default {
+        data: function () {
+            return {
+                places: []
+            }
+        },
         mounted() {
-            console.log('Index Component mounted.')
+            var app = this;
+            axios.get('/api/v1/places')
+                .then(function (resp) {
+                    app.places = resp.data;
+                })
+                .catch(function (resp) {
+                    console.log(resp);
+                    alert("Could not load places");
+                });
+        },
+        methods: {
+            deleteEntry(id, index) {
+                if (confirm("Do you really want to delete it?")) {
+                    var app = this;
+                    axios.delete('/api/v1/places/' + id)
+                        .then(function (resp) {
+                            app.places.splice(index, 1);
+                        })
+                        .catch(function (resp) {
+                            alert("Could not delete place");
+                        });
+                }
+            }
         }
     }
 </script>
