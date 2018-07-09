@@ -8,6 +8,26 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import VueRouter from 'vue-router';
+
+window.Vue.use(VueRouter);
+
+import CompaniesIndex from './components/places/PlacesIndex.vue';
+import CompaniesCreate from './components/places/PlacesCreate.vue';
+import CompaniesEdit from './components/places/PlacesEdit.vue';
+
+const routes = [
+    {
+        path: '/',
+        components: {
+            companiesIndex: PlacesIndex
+        }
+    },
+    {path: '/admin/companies/create', component: PlacesCreate, name: 'createCompany'},
+    {path: '/admin/companies/edit/:id', component: PlacesEdit, name: 'editCompany'},
+];
+
+const router = new VueRouter({ routes });
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
