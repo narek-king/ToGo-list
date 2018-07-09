@@ -5,17 +5,19 @@ namespace App\Http\Controllers\Api\V1;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use App\Places;
+
 
 class PlacesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \App\Places
      */
     public function index()
     {
-        return response()->json(['status' => 'ok'], 200);
+        return Places::all();
     }
 
     /**
@@ -36,7 +38,10 @@ class PlacesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $data['user_id'] = 1;
+        $place = Places::create($data);
+        return $place;
     }
 
     /**
@@ -47,7 +52,7 @@ class PlacesController extends Controller
      */
     public function show($id)
     {
-        //
+        return Places::findOrFail($id);
     }
 
     /**
@@ -70,7 +75,10 @@ class PlacesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $place = Places::findOrFail($id);
+        $place->update($request->all());
+
+        return $place;
     }
 
     /**
@@ -81,6 +89,8 @@ class PlacesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $place = Places::findOrFail($id);
+        $place->delete();
+        return '';
     }
 }

@@ -31,7 +31,9 @@
         data: function () {
             return {
                 place: {
-                    name: ''
+                    name: '',
+                    coordinates: '{some trivial testing cord}',
+                    visited: false
                 }
             }
         },
@@ -39,7 +41,7 @@
             saveForm() {
                 event.preventDefault();
                 var app = this;
-                var newPlace = app.company;
+                var newPlace = app.place;
                 axios.post('/api/v1/places', newPlace)
                     .then(function (resp) {
                         app.$router.push({path: '/'});

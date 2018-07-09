@@ -50409,7 +50409,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             place: {
-                name: ''
+                name: '',
+                coordinates: '{some trivial testing cord}',
+                visited: false
             }
         };
     },
@@ -50417,7 +50419,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         saveForm: function saveForm() {
             event.preventDefault();
             var app = this;
-            var newPlace = app.company;
+            var newPlace = app.place;
             axios.post('/api/v1/places', newPlace).then(function (resp) {
                 app.$router.push({ path: '/' });
             }).catch(function (resp) {
