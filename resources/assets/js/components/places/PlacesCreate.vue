@@ -10,13 +10,13 @@
             <div class="panel-body">
                 <form v-on:submit="saveForm()">
                     <div class="row">
-                        <div class="col-xs-12 form-group">
+                        <div class="col-8 form-group">
                             <label class="control-label">ToGo list</label>
                             <input type="text" v-model="place.name" class="form-control">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12 form-group">
+                        <div class="col-2 form-group">
                             <button class="btn btn-success">Create</button>
                         </div>
                     </div>
@@ -40,13 +40,13 @@
         methods: {
             saveForm() {
                 event.preventDefault();
-                var app = this;
-                var newPlace = app.place;
+                let app = this;
+                let newPlace = app.place;
                 axios.post('/api/v1/places', newPlace)
-                    .then(function (resp) {
+                    .then((resp) => {
                         app.$router.push({path: '/'});
                     })
-                    .catch(function (resp) {
+                    .catch((resp) => {
                         console.log(resp);
                         alert("Could not create your place");
                     });

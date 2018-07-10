@@ -40,18 +40,18 @@
 
 <script>
     export default {
-        data: function () {
+        data: () => {
             return {
                 places: []
             }
         },
         mounted() {
-            var app = this;
+            let app = this;
             axios.get('/api/v1/places')
-                .then(function (resp) {
+                .then((resp) => {
                     app.places = resp.data;
                 })
-                .catch(function (resp) {
+                .catch((resp) => {
                     console.log(resp);
                     alert("Could not load places");
                 });
@@ -59,12 +59,12 @@
         methods: {
             deleteEntry(id, index) {
                 if (confirm("Do you really want to delete it?")) {
-                    var app = this;
+                    let app = this;
                     axios.delete('/api/v1/places/' + id)
-                        .then(function (resp) {
+                        .then((resp) => {
                             app.places.splice(index, 1);
                         })
-                        .catch(function (resp) {
+                        .catch((resp) => {
                             alert("Could not delete place");
                         });
                 }

@@ -50291,7 +50291,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-xs-12 form-group" }, [
+              _c("div", { staticClass: "col-8 form-group" }, [
                 _c("label", { staticClass: "control-label" }, [
                   _vm._v("ToGo list")
                 ]),
@@ -50333,7 +50333,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-xs-12 form-group" }, [
+      _c("div", { staticClass: "col-2 form-group" }, [
         _c("button", { staticClass: "btn btn-success" }, [_vm._v("Create")])
       ])
     ])
@@ -50435,9 +50435,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var id = app.$route.params.id;
         app.placeId = id;
         axios.get('/api/v1/places/' + id).then(function (resp) {
-            app.company = resp.data;
+            app.place = resp.data;
         }).catch(function () {
-            alert("Could not load your company");
+            alert("Could not load your place");
         });
     },
 
@@ -50461,7 +50461,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 app.$router.replace('/');
             }).catch(function (resp) {
                 console.log(resp);
-                alert("Could not create your company");
+                alert("Could not create your place");
             });
         }
     }

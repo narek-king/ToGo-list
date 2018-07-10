@@ -32,11 +32,11 @@
             let id = app.$route.params.id;
             app.placeId = id;
             axios.get('/api/v1/places/' + id)
-                .then(function (resp) {
-                    app.company = resp.data;
+                .then((resp) => {
+                    app.place = resp.data;
                 })
-                .catch(function () {
-                    alert("Could not load your company")
+                .catch(() => {
+                    alert("Could not load your place")
                 });
         },
         data: function () {
@@ -53,15 +53,15 @@
         methods: {
             saveForm() {
                 event.preventDefault();
-                var app = this;
-                var newPlace = app.place;
+                let app = this;
+                let newPlace = app.place;
                 axios.patch('/api/v1/places/' + app.placeId, newPlace)
-                    .then(function (resp) {
+                    .then((resp) => {
                         app.$router.replace('/');
                     })
-                    .catch(function (resp) {
+                    .catch((resp) => {
                         console.log(resp);
-                        alert("Could not create your company");
+                        alert("Could not create your place");
                     });
             }
         }
