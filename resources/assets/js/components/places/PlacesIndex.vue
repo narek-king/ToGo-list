@@ -13,13 +13,15 @@
                     <tr>
                         <th>Name</th>
                         <th>Visited</th>
+                        <th>createdAt</th>
                         <th width="100">&nbsp;</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="place, index in places">
                         <td>{{ place.name }}</td>
-                        <td>{{ place.visited }}</td>
+                        <td>{{ (place.visited === '0')? 'not visited': 'visited' }}</td>
+                        <td>{{ place.created_at }}</td>
                         <td>
                             <router-link :to="{name: 'editPlace', params: {id: place.id}}" class="btn btn-xs btn-default">
                                 Edit

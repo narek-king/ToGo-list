@@ -50005,6 +50005,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -50074,7 +50076,13 @@ var render = function() {
               return _c("tr", [
                 _c("td", [_vm._v(_vm._s(place.name))]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(place.visited))]),
+                _c("td", [
+                  _vm._v(
+                    _vm._s(place.visited === "0" ? "not visited" : "visited")
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(place.created_at))]),
                 _vm._v(" "),
                 _c(
                   "td",
@@ -50132,6 +50140,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
         _c("th", [_vm._v("Visited")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("createdAt")]),
         _vm._v(" "),
         _c("th", { attrs: { width: "100" } }, [_vm._v(" ")])
       ])
@@ -50428,6 +50438,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -50435,7 +50449,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var id = app.$route.params.id;
         app.placeId = id;
         axios.get('/api/v1/places/' + id).then(function (resp) {
+            console.log(resp);
             app.place = resp.data;
+            app.place.visited === '1' ? app.place.visited = true : app.place.visited = false;
         }).catch(function () {
             alert("Could not load your place");
         });
@@ -50446,9 +50462,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             placeId: null,
             place: {
                 name: '',
-                address: '',
-                website: '',
-                email: ''
+                visited: false
             }
         };
     },
@@ -50527,6 +50541,59 @@ var render = function() {
                         return
                       }
                       _vm.$set(_vm.place, "name", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-8 form-group" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "control-label",
+                    attrs: { for: "is-visited" }
+                  },
+                  [_vm._v("Is Visited? " + _vm._s(_vm.place.visited))]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.place.visited,
+                      expression: "place.visited"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "checkbox", id: "is-visited" },
+                  domProps: {
+                    checked: Array.isArray(_vm.place.visited)
+                      ? _vm._i(_vm.place.visited, null) > -1
+                      : _vm.place.visited
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.place.visited,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            _vm.$set(_vm.place, "visited", $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            _vm.$set(
+                              _vm.place,
+                              "visited",
+                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                            )
+                        }
+                      } else {
+                        _vm.$set(_vm.place, "visited", $$c)
+                      }
                     }
                   }
                 })

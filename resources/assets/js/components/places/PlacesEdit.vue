@@ -13,6 +13,10 @@
                             <label class="control-label">ToGo list</label>
                             <input type="text" v-model="place.name" class="form-control">
                         </div>
+                        <div class="col-8 form-group">
+                            <label class="control-label" for="is-visited">Is Visited? {{ place.visited }}</label>
+                            <input type="checkbox" id="is-visited" v-model="place.visited" class="form-control">
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-2 form-group">
@@ -33,7 +37,9 @@
             app.placeId = id;
             axios.get('/api/v1/places/' + id)
                 .then((resp) => {
+                    console.log(resp);
                     app.place = resp.data;
+                    (app.place.visited === '1')? app.place.visited = true : app.place.visited = false;
                 })
                 .catch(() => {
                     alert("Could not load your place")
@@ -44,9 +50,7 @@
                 placeId: null,
                 place: {
                     name: '',
-                    address: '',
-                    website: '',
-                    email: '',
+                    visited: false
                 }
             }
         },
