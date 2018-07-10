@@ -21,3 +21,38 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
     Route::resource('places', 'PlacesController', ['except' => ['create', 'edit']]);
 });
+
+// Route::post('login', 'Auth\LoginController@ApiLogin');
+Route::post('login', function (Request $request) {
+
+    if (auth()->attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
+        // Authentication passed...
+        $user = auth()->user();
+        $user->api_token = str_random(60);
+        $user->save();
+        return $user;
+    }
+
+    return response()->json([
+        'error' => 'Unauthenticated user',
+        'code' => 401,
+    ], 401);
+});
+
+Route::middleware('auth:api')->post('logout', function (Request $request) {
+
+    if (auth()->user()) {
+        $user = auth()->user();
+        $user->api_token = null; // clear api token
+        $user->save();
+
+        return response()->json([
+            'message' => 'Thank you for using our application',
+        ]);
+    }
+
+    return response()->json([
+        'error' => 'Unable to logout user',
+        'code' => 401,
+    ], 401);
+});

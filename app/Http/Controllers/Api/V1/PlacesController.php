@@ -6,10 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use App\Places;
+use Illuminate\Support\Facades\Auth;
 
 
 class PlacesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +43,8 @@ class PlacesController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        dd(Auth::user());
+        $data = $request->user();
         $data['user_id'] = 1;
         $place = Places::create($data);
         return $place;
@@ -75,7 +81,6 @@ class PlacesController extends Controller
      */
     public function update(Request $request, $id)
     {
-//        dd($request->all());
         $place = Places::findOrFail($id);
         $place->update($request->all());
 
