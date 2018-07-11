@@ -15079,6 +15079,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_google_maps__, {
         //// If you want to set the version, you can do so:
         // v: '3.26',
     }
+    // autobindAllEvents: false
 });
 
 var routes = [{
@@ -15098,6 +15099,7 @@ var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ r
 
 Vue.component('example-component', __webpack_require__(91));
 Vue.component('places-index', __webpack_require__(23));
+Vue.prototype.$bus = new Vue({});
 
 var app = new Vue({ router: router }).$mount('#app');
 
@@ -52855,11 +52857,8 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GoogleMap__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GoogleMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__GoogleMap__);
 //
 //
 //
@@ -52904,19 +52903,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        GoogleMap: __WEBPACK_IMPORTED_MODULE_0__GoogleMap___default.a
+    },
     data: function data() {
         return {
             places: []
         };
     },
     mounted: function mounted() {
+        var _this = this;
+
         var app = this;
         axios.get('/api/v1/places').then(function (resp) {
             app.places = resp.data;
         }).catch(function (resp) {
             console.log(resp);
             alert("Could not load places");
+        });
+        this.$bus.$on('placeAdded', function (message) {
+            var coordinates = JSON.stringify({
+                lat: message.data.geometry.location.lat(),
+                lng: message.data.geometry.location.lng()
+            });
+            var newPlace = {
+                name: message.data.formatted_address,
+                coordinates: coordinates,
+                visited: false
+            };
+            axios.post('/api/v1/places', newPlace).then(function (resp) {
+                resp.data.visited = 0;
+                _this.places.push(resp.data);
+                console.log(resp);
+            }).catch(function (resp) {
+                console.log(resp);
+                alert("Could not create your place");
+            });
         });
     },
 
@@ -52966,14 +52990,7 @@ var render = function() {
         "div",
         { staticClass: "panel-body" },
         [
-          _c("GmapMap", {
-            staticStyle: { width: "500px", height: "300px" },
-            attrs: {
-              center: { lat: 0, lng: 0 },
-              zoom: 1,
-              "map-type-id": "terrain"
-            }
-          }),
+          _c("google-map"),
           _vm._v(" "),
           _c("table", { staticClass: "table table-bordered table-striped" }, [
             _vm._m(0),
@@ -52986,7 +53003,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _vm._v(
-                      _vm._s(place.visited === "0" ? "not visited" : "visited")
+                      _vm._s(place.visited === "1" ? "visited" : "not visited")
                     )
                   ]),
                   _vm._v(" "),
@@ -53662,6 +53679,203 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(99)
+/* template */
+var __vue_template__ = __webpack_require__(100)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/places/GoogleMap.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e9116752", Component.options)
+  } else {
+    hotAPI.reload("data-v-e9116752", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 99 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "GoogleMap",
+    data: function data() {
+        return {
+            // default to Montreal to keep it simple
+            // change this to whatever makes sense
+            center: { lat: 45.508, lng: -73.587 },
+            markers: [],
+            places: [],
+            currentPlace: null
+        };
+    },
+    mounted: function mounted() {
+        this.geolocate();
+    },
+
+
+    methods: {
+        // receives a place object via the autocomplete component
+        setPlace: function setPlace(place) {
+            this.currentPlace = place;
+        },
+        addMarker: function addMarker() {
+            if (this.currentPlace) {
+                console.log(this.currentPlace);
+                this.$bus.$emit('placeAdded', { data: this.currentPlace });
+                var marker = {
+                    lat: this.currentPlace.geometry.location.lat(),
+                    lng: this.currentPlace.geometry.location.lng()
+                };
+                this.markers.push({ position: marker });
+                this.places.push(this.currentPlace);
+                this.center = marker;
+                this.currentPlace = null;
+            }
+        },
+
+        geolocate: function geolocate() {
+            var _this = this;
+
+            navigator.geolocation.getCurrentPosition(function (position) {
+                _this.center = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", [
+        _c("h2", [_vm._v("Search and add a pin")]),
+        _vm._v(" "),
+        _c(
+          "label",
+          [
+            _c("gmap-autocomplete", { on: { place_changed: _vm.setPlace } }),
+            _vm._v(" "),
+            _c("button", { on: { click: _vm.addMarker } }, [_vm._v("Add")])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("br")
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c(
+        "gmap-map",
+        {
+          staticStyle: { width: "100%", height: "400px" },
+          attrs: { center: _vm.center, zoom: 12 }
+        },
+        _vm._l(_vm.markers, function(m, index) {
+          return _c("gmap-marker", {
+            key: index,
+            attrs: { position: m.position },
+            on: {
+              click: function($event) {
+                _vm.center = m.position
+              }
+            }
+          })
+        })
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e9116752", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

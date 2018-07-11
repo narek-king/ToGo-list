@@ -8,12 +8,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Places list</div>
             <div class="panel-body">
-                <GmapMap
-                        :center="{lat:0, lng:0}"
-                        :zoom="1"
-                        map-type-id="terrain"
-                        style="width: 500px; height: 300px"
-                ></GmapMap>
+                <google-map />
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
@@ -26,7 +21,7 @@
                     <tbody>
                     <tr v-for="place, index in places">
                         <td>{{ place.name }}</td>
-                        <td>{{ (place.visited === '0')? 'not visited': 'visited' }}</td>
+                        <td>{{ (place.visited === '1')? 'visited': 'not visited' }}</td>
                         <td>{{ place.created_at }}</td>
                         <td>
                             <router-link :to="{name: 'editPlace', params: {id: place.id}}" class="btn btn-xs btn-default">
@@ -47,7 +42,11 @@
 </template>
 
 <script>
+    import GoogleMap from "./GoogleMap";
     export default {
+        components: {
+            GoogleMap
+        },
         data: () => {
             return {
                 places: []
@@ -63,6 +62,27 @@
                     console.log(resp);
                     alert("Could not load places");
                 });
+            this.$bus.$on('placeAdded', (message) => {
+                const coordinates = JSON.stringify({
+                    lat: message.data.geometry.location.lat(),
+                    lng: message.data.geometry.location.lng()
+                });
+                const newPlace = {
+                    name: message.data.formatted_address,
+                    coordinates: coordinates,
+                    visited: false
+                };
+                axios.post('/api/v1/places', newPlace)
+                    .then((resp) => {
+                        resp.data.visited = 0;
+                        this.places.push(resp.data);
+                        console.log(resp);
+                    })
+                    .catch((resp) => {
+                        console.log(resp);
+                        alert("Could not create your place");
+                    });
+            });
         },
         methods: {
             deleteEntry(id, index) {

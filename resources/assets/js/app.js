@@ -27,6 +27,7 @@ Vue.use(VueGoogleMaps, {
         //// If you want to set the version, you can do so:
         // v: '3.26',
     },
+    // autobindAllEvents: false
 });
 
 const routes = [
@@ -50,5 +51,6 @@ const router = new VueRouter({ routes });
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('places-index', require('./components/places/PlacesIndex.vue'));
+Vue.prototype.$bus = new Vue({});
 
 const app = new Vue({ router }).$mount('#app');
