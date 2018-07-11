@@ -39,7 +39,7 @@ class PlacesController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['user_id'] = 1;
+        $data['user_id'] = 1; //TODO change this after implementing api auth
         $place = Places::create($data);
         return $place;
     }
@@ -75,7 +75,6 @@ class PlacesController extends Controller
      */
     public function update(Request $request, $id)
     {
-//        dd($request->all());
         $place = Places::findOrFail($id);
         $place->update($request->all());
 

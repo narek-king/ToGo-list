@@ -9,12 +9,25 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 import VueRouter from 'vue-router';
-
-window.Vue.use(VueRouter);
-
+import * as VueGoogleMaps from 'vue2-google-maps';
 import PlacesIndex from './components/places/PlacesIndex.vue';
 import PlacesCreate from './components/places/PlacesCreate.vue';
 import PlacesEdit from './components/places/PlacesEdit.vue';
+
+window.Vue.use(VueRouter);
+
+Vue.use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyA-kNf8kPC_NT6NGhYAhawVATdkweQepRM',
+        libraries: 'places', // This is required if you use the Autocomplete plugin
+        // OR: libraries: 'places,drawing'
+        // OR: libraries: 'places,drawing,visualization'
+        // (as you require)
+
+        //// If you want to set the version, you can do so:
+        // v: '3.26',
+    },
+});
 
 const routes = [
     {

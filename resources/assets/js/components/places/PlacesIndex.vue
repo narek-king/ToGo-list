@@ -8,6 +8,12 @@
         <div class="panel panel-default">
             <div class="panel-heading">Places list</div>
             <div class="panel-body">
+                <GmapMap
+                        :center="{lat:0, lng:0}"
+                        :zoom="1"
+                        map-type-id="terrain"
+                        style="width: 500px; height: 300px"
+                ></GmapMap>
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
