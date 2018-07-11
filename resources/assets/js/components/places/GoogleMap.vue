@@ -14,8 +14,8 @@
         <br>
         <gmap-map
                 :center="center"
-                :zoom="12"
-                style="width:100%;  height: 400px;"
+                :zoom="2"
+                style="width:100%;  height: 600px;"
         >
             <gmap-marker
                     :key="index"
@@ -34,7 +34,7 @@
             return {
                 // default to Montreal to keep it simple
                 // change this to whatever makes sense
-                center: { lat: 45.508, lng: -73.587 },
+                center: { lat: 0, lng: 0 },
                 markers: [],
                 places: [],
                 currentPlace: null
@@ -42,7 +42,14 @@
         },
 
         mounted() {
-            this.geolocate();
+//            this.geolocate();
+            this.$bus.$on('loadedPlaces', (message) => {
+                console.log('message', message);
+                for (let item of message.data) {
+                    const marker = JSON.parse(item.coordinates);
+                    this.markers.push({ position: marker });
+                }
+            });
         },
 
         methods: {
@@ -52,7 +59,6 @@
             },
             addMarker() {
                 if (this.currentPlace) {
-                    console.log(this.currentPlace);
                     this.$bus.$emit('placeAdded', {data: this.currentPlace});
                     const marker = {
                         lat: this.currentPlace.geometry.location.lat(),

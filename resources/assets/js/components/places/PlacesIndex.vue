@@ -57,6 +57,7 @@
             axios.get('/api/v1/places')
                 .then((resp) => {
                     app.places = resp.data;
+                    this.$bus.$emit('loadedPlaces', {data: app.places});
                 })
                 .catch((resp) => {
                     console.log(resp);

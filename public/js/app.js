@@ -52919,6 +52919,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var app = this;
         axios.get('/api/v1/places').then(function (resp) {
             app.places = resp.data;
+            _this.$bus.$emit('loadedPlaces', { data: app.places });
         }).catch(function (resp) {
             console.log(resp);
             alert("Could not load places");
@@ -53772,14 +53773,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             // default to Montreal to keep it simple
             // change this to whatever makes sense
-            center: { lat: 45.508, lng: -73.587 },
+            center: { lat: 0, lng: 0 },
             markers: [],
             places: [],
             currentPlace: null
         };
     },
     mounted: function mounted() {
-        this.geolocate();
+        var _this = this;
+
+        //            this.geolocate();
+        this.$bus.$on('loadedPlaces', function (message) {
+            console.log('message', message);
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = message.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var item = _step.value;
+
+                    var marker = JSON.parse(item.coordinates);
+                    _this.markers.push({ position: marker });
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+        });
     },
 
 
@@ -53790,7 +53821,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         addMarker: function addMarker() {
             if (this.currentPlace) {
-                console.log(this.currentPlace);
                 this.$bus.$emit('placeAdded', { data: this.currentPlace });
                 var marker = {
                     lat: this.currentPlace.geometry.location.lat(),
@@ -53804,10 +53834,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         geolocate: function geolocate() {
-            var _this = this;
+            var _this2 = this;
 
             navigator.geolocation.getCurrentPosition(function (position) {
-                _this.center = {
+                _this2.center = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
@@ -53848,8 +53878,8 @@ var render = function() {
       _c(
         "gmap-map",
         {
-          staticStyle: { width: "100%", height: "400px" },
-          attrs: { center: _vm.center, zoom: 12 }
+          staticStyle: { width: "100%", height: "600px" },
+          attrs: { center: _vm.center, zoom: 2 }
         },
         _vm._l(_vm.markers, function(m, index) {
           return _c("gmap-marker", {
