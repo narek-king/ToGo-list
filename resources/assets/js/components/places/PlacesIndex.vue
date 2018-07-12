@@ -1,12 +1,7 @@
 
 <template>
     <div>
-        <div class="form-group">
-            <router-link :to="{name: 'createPlace'}" class="btn btn-success">Create new place</router-link>
-        </div>
-
         <div class="panel panel-default">
-            <div class="panel-heading">Places list</div>
             <div class="panel-body">
                 <google-map />
                 <table class="table table-bordered table-striped">
@@ -53,7 +48,7 @@
             }
         },
         mounted() {
-            axios.get('/api/v1/places')
+            axios.get('/places')
                 .then((resp) => {
                     this.places = resp.data;
                     this.$bus.$emit('setPlaces', {data: this.places});
@@ -72,7 +67,7 @@
                     coordinates: coordinates,
                     visited: false
                 };
-                axios.post('/api/v1/places', newPlace)
+                axios.post('/places', newPlace)
                     .then((resp) => {
                         resp.data.visited = 0;
                         this.places.push(resp.data);
@@ -87,7 +82,7 @@
         methods: {
             deleteEntry(id, index) {
                 if (confirm("Do you really want to delete it?")) {
-                    axios.delete('/api/v1/places/' + id)
+                    axios.delete('/places/' + id)
                         .then((resp) => {
                             this.places.splice(index, 1);
                             this.$bus.$emit('setPlaces', {data: this.places});

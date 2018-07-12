@@ -70,6 +70,7 @@
                 });
             },
             setMarkers(places) {
+                console.log(places);
                 this.markers = [];
                 for (let item of places) {
                     const marker = JSON.parse(item.coordinates);

@@ -40,14 +40,12 @@
         methods: {
             saveForm() {
                 event.preventDefault();
-                let app = this;
-                let newPlace = app.place;
-                axios.post('/api/v1/places', newPlace)
+                const newPlace = this.place;
+                axios.post('/places', newPlace)
                     .then((resp) => {
-                        app.$router.push({path: '/'});
+                        this.$router.push({path: '/'});
                     })
                     .catch((resp) => {
-                        console.log(resp);
                         alert("Could not create your place");
                     });
             }

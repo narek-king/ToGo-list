@@ -52897,11 +52897,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -52916,7 +52911,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        axios.get('/api/v1/places').then(function (resp) {
+        axios.get('/places').then(function (resp) {
             _this.places = resp.data;
             _this.$bus.$emit('setPlaces', { data: _this.places });
         }).catch(function (resp) {
@@ -52933,7 +52928,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 coordinates: coordinates,
                 visited: false
             };
-            axios.post('/api/v1/places', newPlace).then(function (resp) {
+            axios.post('/places', newPlace).then(function (resp) {
                 resp.data.visited = 0;
                 _this.places.push(resp.data);
                 console.log(resp);
@@ -52949,7 +52944,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             if (confirm("Do you really want to delete it?")) {
-                axios.delete('/api/v1/places/' + id).then(function (resp) {
+                axios.delete('/places/' + id).then(function (resp) {
                     _this2.places.splice(index, 1);
                     _this2.$bus.$emit('setPlaces', { data: _this2.places });
                 }).catch(function (resp) {
@@ -53091,6 +53086,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         setMarkers: function setMarkers(places) {
+            console.log(places);
             this.markers = [];
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
@@ -53191,25 +53187,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "div",
-      { staticClass: "form-group" },
-      [
-        _c(
-          "router-link",
-          {
-            staticClass: "btn btn-success",
-            attrs: { to: { name: "createPlace" } }
-          },
-          [_vm._v("Create new place")]
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
     _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "panel-heading" }, [_vm._v("Places list")]),
-      _vm._v(" "),
       _c(
         "div",
         { staticClass: "panel-body" },
@@ -53402,13 +53380,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         saveForm: function saveForm() {
+            var _this = this;
+
             event.preventDefault();
-            var app = this;
-            var newPlace = app.place;
-            axios.post('/api/v1/places', newPlace).then(function (resp) {
-                app.$router.push({ path: '/' });
+            var newPlace = this.place;
+            axios.post('/places', newPlace).then(function (resp) {
+                _this.$router.push({ path: '/' });
             }).catch(function (resp) {
-                console.log(resp);
                 alert("Could not create your place");
             });
         }
@@ -53596,13 +53574,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
-        var app = this;
-        var id = app.$route.params.id;
-        app.placeId = id;
-        axios.get('/api/v1/places/' + id).then(function (resp) {
-            console.log(resp);
-            app.place = resp.data;
-            app.place.visited === '1' ? app.place.visited = true : app.place.visited = false;
+        var _this = this;
+
+        var id = this.$route.params.id;
+        this.placeId = id;
+        axios.get('/places/' + id).then(function (resp) {
+            _this.place = resp.data;
+            _this.place.visited === '1' ? _this.place.visited = true : _this.place.visited = false;
         }).catch(function () {
             alert("Could not load your place");
         });
@@ -53619,13 +53597,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         saveForm: function saveForm() {
+            var _this2 = this;
+
             event.preventDefault();
-            var app = this;
-            var newPlace = app.place;
-            axios.patch('/api/v1/places/' + app.placeId, newPlace).then(function (resp) {
-                app.$router.replace('/');
+            var newPlace = this.place;
+            axios.patch('/places/' + this.placeId, newPlace).then(function (resp) {
+                _this2.$router.replace('/');
             }).catch(function (resp) {
-                console.log(resp);
                 alert("Could not create your place");
             });
         }
@@ -53655,7 +53633,7 @@ var render = function() {
     ),
     _vm._v(" "),
     _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "panel-heading" }, [_vm._v("Create new place")]),
+      _c("div", { staticClass: "panel-heading" }, [_vm._v("Edit place")]),
       _vm._v(" "),
       _c("div", { staticClass: "panel-body" }, [
         _c(
@@ -53671,7 +53649,7 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-8 form-group" }, [
                 _c("label", { staticClass: "control-label" }, [
-                  _vm._v("ToGo list")
+                  _vm._v("ToGo place name")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -53704,7 +53682,7 @@ var render = function() {
                     staticClass: "control-label",
                     attrs: { for: "is-visited" }
                   },
-                  [_vm._v("Is Visited? " + _vm._s(_vm.place.visited))]
+                  [_vm._v("Is Visited?")]
                 ),
                 _vm._v(" "),
                 _c("input", {

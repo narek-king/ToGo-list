@@ -6,10 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use App\Places;
+use Illuminate\Support\Facades\Auth;
 
 
 class PlacesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +22,7 @@ class PlacesController extends Controller
      */
     public function index()
     {
-        return Places::all();
+        return Places::where('user_id', Auth::id())->get();
     }
 
     /**
@@ -39,7 +44,7 @@ class PlacesController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['user_id'] = 1; //TODO change this after implementing api auth
+        $data['user_id'] = Auth::id();
         $place = Places::create($data);
         return $place;
     }
