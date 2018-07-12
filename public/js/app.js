@@ -53045,7 +53045,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             center: { lat: 0, lng: 0 },
             markers: [],
             places: [],
-            currentPlace: null
+            currentPlace: null,
+            zoom: 2
         };
     },
     mounted: function mounted() {
@@ -53086,7 +53087,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         setMarkers: function setMarkers(places) {
-            console.log(places);
             this.markers = [];
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
@@ -53113,6 +53113,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 }
             }
+        },
+        concentrate: function concentrate(marker) {
+            this.center = marker.position;
+            this.zoom = 7;
         }
     }
 });
@@ -53129,7 +53133,7 @@ var render = function() {
     "div",
     [
       _c("div", [
-        _c("h2", [_vm._v("Search and add a pin")]),
+        _c("h2", [_vm._v("Search and add a place")]),
         _vm._v(" "),
         _c(
           "label",
@@ -53150,7 +53154,7 @@ var render = function() {
         "gmap-map",
         {
           staticStyle: { width: "100%", height: "600px" },
-          attrs: { center: _vm.center, zoom: 2 }
+          attrs: { center: _vm.center, zoom: _vm.zoom }
         },
         _vm._l(_vm.markers, function(m, index) {
           return _c("gmap-marker", {
@@ -53158,7 +53162,7 @@ var render = function() {
             attrs: { position: m.position },
             on: {
               click: function($event) {
-                _vm.center = m.position
+                _vm.concentrate(m)
               }
             }
           })

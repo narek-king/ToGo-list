@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <h2>Search and add a pin</h2>
+            <h2>Search and add a place</h2>
             <label>
                 <gmap-autocomplete
                         @place_changed="setPlace">
@@ -14,14 +14,14 @@
         <br>
         <gmap-map
                 :center="center"
-                :zoom="2"
+                :zoom="zoom"
                 style="width:100%;  height: 600px;"
         >
             <gmap-marker
                     :key="index"
                     v-for="(m, index) in markers"
                     :position="m.position"
-                    @click="center=m.position"
+                    @click="concentrate(m)"
             ></gmap-marker>
         </gmap-map>
     </div>
@@ -35,7 +35,8 @@
                 center: { lat: 0, lng: 0 },
                 markers: [],
                 places: [],
-                currentPlace: null
+                currentPlace: null,
+                zoom: 2
             };
         },
 
@@ -70,12 +71,15 @@
                 });
             },
             setMarkers(places) {
-                console.log(places);
                 this.markers = [];
                 for (let item of places) {
                     const marker = JSON.parse(item.coordinates);
                     this.markers.push({ position: marker });
                 }
+            },
+            concentrate(marker){
+                this.center=marker.position;
+                this.zoom = 7;
             }
         }
     };
