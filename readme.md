@@ -26,7 +26,7 @@ Then you need to setup database and environment
 
 - SQLite should be installed on your PC — follow this [Tutorialpoint](https://www.tutorialspoint.com/sqlite/sqlite_installation.htm)
 - create sqlite file `touch ./database/database.sqlite`
-- copy `.env.example` file with renaming it to `.env`
+- copy `.env.example` file with renaming it to `.env` by running `cp .env.example .env`
 - run   `php artisan key:generate`
 - Change the lines in the `.env` file as followes
     
