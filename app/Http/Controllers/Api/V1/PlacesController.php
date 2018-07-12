@@ -57,7 +57,10 @@ class PlacesController extends Controller
      */
     public function show($id)
     {
-        return Places::findOrFail($id);
+        $place = Places::findOrFail($id);
+        if ($place->user_id == Auth::id())
+            return $place;
+        return response()->json(['message' => 'unauthorised'], 401);
     }
 
     /**
@@ -81,9 +84,11 @@ class PlacesController extends Controller
     public function update(Request $request, $id)
     {
         $place = Places::findOrFail($id);
-        $place->update($request->all());
-
-        return $place;
+        if ($place->user_id == Auth::id()){
+            $place->update($request->all());
+            return $place;
+        }
+        return response()->json(['message' => 'unauthorised'], 401);
     }
 
     /**
@@ -95,7 +100,10 @@ class PlacesController extends Controller
     public function destroy($id)
     {
         $place = Places::findOrFail($id);
-        $place->delete();
-        return '';
+        if ($place->user_id == Auth::id()) {
+            $place->delete();
+            return '';
+        }
+        return response()->json(['message' => 'unauthorised'], 401);
     }
 }
