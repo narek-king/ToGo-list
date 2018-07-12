@@ -32,8 +32,6 @@
         name: "GoogleMap",
         data() {
             return {
-                // default to Montreal to keep it simple
-                // change this to whatever makes sense
                 center: { lat: 0, lng: 0 },
                 markers: [],
                 places: [],
@@ -42,14 +40,7 @@
         },
 
         mounted() {
-//            this.geolocate();
-            this.$bus.$on('loadedPlaces', (message) => {
-                console.log('message', message);
-                for (let item of message.data) {
-                    const marker = JSON.parse(item.coordinates);
-                    this.markers.push({ position: marker });
-                }
-            });
+            this.$bus.$on('setPlaces', (message) => {this.setMarkers(message.data)});
         },
 
         methods: {
@@ -70,13 +61,20 @@
                     this.currentPlace = null;
                 }
             },
-            geolocate: function() {
+            geolocate() {
                 navigator.geolocation.getCurrentPosition(position => {
                     this.center = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
                 });
+            },
+            setMarkers(places) {
+                this.markers = [];
+                for (let item of places) {
+                    const marker = JSON.parse(item.coordinates);
+                    this.markers.push({ position: marker });
+                }
             }
         }
     };

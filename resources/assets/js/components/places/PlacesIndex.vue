@@ -53,11 +53,10 @@
             }
         },
         mounted() {
-            let app = this;
             axios.get('/api/v1/places')
                 .then((resp) => {
-                    app.places = resp.data;
-                    this.$bus.$emit('loadedPlaces', {data: app.places});
+                    this.places = resp.data;
+                    this.$bus.$emit('setPlaces', {data: this.places});
                 })
                 .catch((resp) => {
                     console.log(resp);
@@ -88,10 +87,10 @@
         methods: {
             deleteEntry(id, index) {
                 if (confirm("Do you really want to delete it?")) {
-                    let app = this;
                     axios.delete('/api/v1/places/' + id)
                         .then((resp) => {
-                            app.places.splice(index, 1);
+                            this.places.splice(index, 1);
+                            this.$bus.$emit('setPlaces', {data: this.places});
                         })
                         .catch((resp) => {
                             alert("Could not delete place");
