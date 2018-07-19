@@ -63,7 +63,6 @@
                     alert("Could not load places");
                 });
             this.$bus.$on('placeAdded', (message) => {
-                console.log(message);
                 let coordinates = '';
                 let name = '';
                 if (message.data.geometry) {
