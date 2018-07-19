@@ -109,7 +109,7 @@
                 }
             },
             showOnMap(place) {
-                console.log(place);
+                this.$bus.$emit('showMarker', {place});
             }
         }
     }

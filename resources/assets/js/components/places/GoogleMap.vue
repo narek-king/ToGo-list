@@ -65,6 +65,12 @@
 
         mounted() {
             this.$bus.$on('setPlaces', (message) => {this.setMarkers(message.data)});
+            this.$bus.$on('showMarker', (data) => {
+                const marker = this.markers.find(x => x.id === data.place.id);
+                this.center = marker.position;
+                this.zoom = 7;
+                marker.visible = true;
+            });
         },
 
         methods: {

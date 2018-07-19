@@ -52969,7 +52969,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         showOnMap: function showOnMap(place) {
-            console.log(place);
+            this.$bus.$emit('showMarker', { place: place });
         }
     }
 });
@@ -53096,6 +53096,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         this.$bus.$on('setPlaces', function (message) {
             _this.setMarkers(message.data);
+        });
+        this.$bus.$on('showMarker', function (data) {
+            var marker = _this.markers.find(function (x) {
+                return x.id === data.place.id;
+            });
+            _this.center = marker.position;
+            _this.zoom = 7;
+            marker.visible = true;
         });
     },
 
