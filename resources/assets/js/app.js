@@ -19,7 +19,7 @@ window.Vue.use(VueRouter);
 Vue.use(VueGoogleMaps, {
     load: {
         key: 'AIzaSyA-kNf8kPC_NT6NGhYAhawVATdkweQepRM',
-        libraries: 'places', // This is required if you use the Autocomplete plugin
+        libraries: 'places,drawing,visualization', // This is required if you use the Autocomplete plugin
         // OR: libraries: 'places,drawing'
         // OR: libraries: 'places,drawing,visualization'
         // (as you require)
@@ -27,7 +27,7 @@ Vue.use(VueGoogleMaps, {
         //// If you want to set the version, you can do so:
         // v: '3.26',
     },
-    // autobindAllEvents: false
+    autobindAllEvents: false
 });
 
 const routes = [

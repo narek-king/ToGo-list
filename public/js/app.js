@@ -15071,15 +15071,15 @@ window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_google_maps__, {
     load: {
         key: 'AIzaSyA-kNf8kPC_NT6NGhYAhawVATdkweQepRM',
-        libraries: 'places' // This is required if you use the Autocomplete plugin
+        libraries: 'places,drawing,visualization' // This is required if you use the Autocomplete plugin
         // OR: libraries: 'places,drawing'
         // OR: libraries: 'places,drawing,visualization'
         // (as you require)
 
         //// If you want to set the version, you can do so:
         // v: '3.26',
-    }
-    // autobindAllEvents: false
+    },
+    autobindAllEvents: false
 });
 
 var routes = [{
@@ -52897,6 +52897,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -52919,19 +52924,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             alert("Could not load places");
         });
         this.$bus.$on('placeAdded', function (message) {
-            var coordinates = JSON.stringify({
-                lat: message.data.geometry.location.lat(),
-                lng: message.data.geometry.location.lng()
-            });
+            console.log(message);
+            var coordinates = '';
+            var name = '';
+            if (message.data.geometry) {
+                coordinates = JSON.stringify({
+                    lat: message.data.geometry.location.lat(),
+                    lng: message.data.geometry.location.lng()
+                });
+                name = message.data.formatted_address;
+            } else {
+                coordinates = JSON.stringify({
+                    lat: message.data.position.lat,
+                    lng: message.data.position.lng
+                });
+                name = message.data.content.title;
+            }
             var newPlace = {
-                name: message.data.formatted_address,
+                name: name,
                 coordinates: coordinates,
                 visited: false
             };
             axios.post('/places', newPlace).then(function (resp) {
                 resp.data.visited = 0;
                 _this.places.push(resp.data);
-                console.log(resp);
             }).catch(function (resp) {
                 console.log(resp);
                 alert("Could not create your place");
@@ -52951,6 +52967,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     alert("Could not delete place");
                 });
             }
+        },
+        showOnMap: function showOnMap(place) {
+            console.log(place);
         }
     }
 });
@@ -53037,6 +53056,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "GoogleMap",
@@ -53046,7 +53087,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             markers: [],
             places: [],
             currentPlace: null,
-            zoom: 2
+            zoom: 2,
+            newPlace: null
         };
     },
     mounted: function mounted() {
@@ -53059,6 +53101,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     methods: {
+        addNewPlace: function addNewPlace($event) {
+            this.newPlace = null;
+            var marker = {
+                position: {
+                    lat: $event.latLng.lat(),
+                    lng: $event.latLng.lng()
+                },
+                content: { title: '',
+                    isVisited: false },
+                type: 'event',
+                visible: true
+            };
+            this.newPlace = marker;
+        },
+        saveNewPlace: function saveNewPlace() {
+            this.$bus.$emit('placeAdded', { data: this.newPlace });
+            this.markers.push(this.newPlace);
+            this.newPlace = null;
+        },
+
         // receives a place object via the autocomplete component
         setPlace: function setPlace(place) {
             this.currentPlace = place;
@@ -53067,12 +53129,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.currentPlace) {
                 this.$bus.$emit('placeAdded', { data: this.currentPlace });
                 var marker = {
-                    lat: this.currentPlace.geometry.location.lat(),
-                    lng: this.currentPlace.geometry.location.lng()
+                    position: {
+                        lat: this.currentPlace.geometry.location.lat(),
+                        lng: this.currentPlace.geometry.location.lng()
+                    },
+                    content: { title: this.currentPlace.name,
+                        isVisited: false },
+                    type: 'event',
+                    visible: false
                 };
-                this.markers.push({ position: marker });
+                this.markers.push(marker);
                 this.places.push(this.currentPlace);
-                this.center = marker;
+                this.center = marker.position;
                 this.currentPlace = null;
             }
         },
@@ -53096,8 +53164,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 for (var _iterator = places[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var item = _step.value;
 
-                    var marker = JSON.parse(item.coordinates);
-                    this.markers.push({ position: marker });
+                    var marker = { position: JSON.parse(item.coordinates),
+                        content: { title: item.name,
+                            isVisited: item.visited == 0 ? false : true },
+                        type: 'event',
+                        visible: false,
+                        id: item.id };
+                    this.markers.push(marker);
                 }
             } catch (err) {
                 _didIteratorError = true;
@@ -53154,19 +53227,131 @@ var render = function() {
         "gmap-map",
         {
           staticStyle: { width: "100%", height: "600px" },
-          attrs: { center: _vm.center, zoom: _vm.zoom }
-        },
-        _vm._l(_vm.markers, function(m, index) {
-          return _c("gmap-marker", {
-            key: index,
-            attrs: { position: m.position },
-            on: {
-              click: function($event) {
-                _vm.concentrate(m)
-              }
+          attrs: { center: _vm.center, zoom: _vm.zoom },
+          on: {
+            click: function($event) {
+              _vm.addNewPlace($event)
             }
-          })
-        })
+          }
+        },
+        [
+          _vm._l(_vm.markers, function(m, index) {
+            return _c(
+              "gmap-marker",
+              {
+                key: index,
+                attrs: { position: m.position, clickable: true },
+                on: {
+                  click: function($event) {
+                    _vm.zoom = 7
+                    _vm.center = m.position
+                  },
+                  mousedown: function($event) {
+                    m.visible = true
+                  }
+                }
+              },
+              [
+                _c(
+                  "gmap-info-window",
+                  {
+                    attrs: { opened: m.visible },
+                    on: {
+                      closeclick: function($event) {
+                        m.visible = false
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                Place Name: " + _vm._s(m.content.title)
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n                The place is " +
+                        _vm._s(m.content.isVisited ? "" : "not ") +
+                        " visited.\n            "
+                    )
+                  ]
+                )
+              ],
+              1
+            )
+          }),
+          _vm._v(" "),
+          _vm.newPlace
+            ? _c(
+                "gmap-marker",
+                {
+                  attrs: { position: _vm.newPlace.position, clickable: true },
+                  on: {
+                    click: function($event) {
+                      _vm.center = _vm.newPlace.position
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "gmap-info-window",
+                    {
+                      attrs: { opened: _vm.newPlace.visible },
+                      on: {
+                        closeclick: function($event) {
+                          _vm.newPlace.visible = false
+                        }
+                      }
+                    },
+                    [
+                      _vm._v("\n                Place Name: "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newPlace.content.title,
+                            expression: "newPlace.content.title"
+                          }
+                        ],
+                        attrs: { type: "text", placeholder: "Enter name" },
+                        domProps: { value: _vm.newPlace.content.title },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newPlace.content,
+                              "title",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _c("br"),
+                      _vm._v(
+                        "\n                The place is " +
+                          _vm._s(_vm.newPlace.content.isVisited ? "" : "not ") +
+                          " visited.\n                "
+                      ),
+                      _c(
+                        "button",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.saveNewPlace()
+                            }
+                          }
+                        },
+                        [_vm._v("Save")]
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        2
       )
     ],
     1
@@ -53247,6 +53432,24 @@ var render = function() {
                         [
                           _vm._v(
                             "\n                            Delete\n                        "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              _vm.showOnMap(place)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            Show on the Map\n                        "
                           )
                         ]
                       )

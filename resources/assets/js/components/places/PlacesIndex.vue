@@ -27,6 +27,11 @@
                                v-on:click="deleteEntry(place.id, index)">
                                 Delete
                             </a>
+                            <a href="#"
+                               class="btn btn-primary"
+                               v-on:click="showOnMap(place)">
+                                Show on the Map
+                            </a>
                         </td>
                     </tr>
                     </tbody>
@@ -58,12 +63,24 @@
                     alert("Could not load places");
                 });
             this.$bus.$on('placeAdded', (message) => {
-                const coordinates = JSON.stringify({
-                    lat: message.data.geometry.location.lat(),
-                    lng: message.data.geometry.location.lng()
-                });
+                console.log(message);
+                let coordinates = '';
+                let name = '';
+                if (message.data.geometry) {
+                    coordinates = JSON.stringify({
+                        lat: message.data.geometry.location.lat(),
+                        lng: message.data.geometry.location.lng()
+                    });
+                    name = message.data.formatted_address;
+                } else {
+                    coordinates = JSON.stringify({
+                        lat: message.data.position.lat,
+                        lng: message.data.position.lng
+                    });
+                    name = message.data.content.title;
+                }
                 const newPlace = {
-                    name: message.data.formatted_address,
+                    name: name,
                     coordinates: coordinates,
                     visited: false
                 };
@@ -71,7 +88,6 @@
                     .then((resp) => {
                         resp.data.visited = 0;
                         this.places.push(resp.data);
-                        console.log(resp);
                     })
                     .catch((resp) => {
                         console.log(resp);
@@ -91,6 +107,9 @@
                             alert("Could not delete place");
                         });
                 }
+            },
+            showOnMap(place) {
+                console.log(place);
             }
         }
     }

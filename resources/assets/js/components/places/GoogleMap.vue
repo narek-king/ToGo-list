@@ -15,14 +15,36 @@
         <gmap-map
                 :center="center"
                 :zoom="zoom"
+                @click="addNewPlace($event)"
                 style="width:100%;  height: 600px;"
         >
             <gmap-marker
                     :key="index"
                     v-for="(m, index) in markers"
                     :position="m.position"
-                    @click="concentrate(m)"
-            ></gmap-marker>
+                    :clickable="true"
+                    @click="zoom=7; center=m.position"
+                    @mousedown="m.visible=true"
+            >
+                <gmap-info-window  :opened="m.visible" @closeclick="m.visible=false">
+                    Place Name: {{m.content.title}}<br>
+                    The place is {{m.content.isVisited? '': 'not '}} visited.
+                </gmap-info-window>
+            </gmap-marker>
+
+            <gmap-marker
+                    v-if="newPlace"
+                    :position="newPlace.position"
+                    :clickable="true"
+                    @click="center=newPlace.position"
+            >
+                <gmap-info-window  :opened="newPlace.visible" @closeclick="newPlace.visible=false">
+                    Place Name: <input type="text" v-model="newPlace.content.title" placeholder="Enter name"><br>
+                    The place is {{newPlace.content.isVisited? '': 'not '}} visited.
+                    <button @click="saveNewPlace()">Save</button>
+                </gmap-info-window>
+            </gmap-marker>
+
         </gmap-map>
     </div>
 </template>
@@ -36,7 +58,8 @@
                 markers: [],
                 places: [],
                 currentPlace: null,
-                zoom: 2
+                zoom: 2,
+                newPlace: null
             };
         },
 
@@ -45,6 +68,25 @@
         },
 
         methods: {
+            addNewPlace($event){
+                this.newPlace = null;
+                const marker = {
+                    position: {
+                        lat: $event.latLng.lat(),
+                        lng: $event.latLng.lng()
+                    },
+                    content: {title: '',
+                        isVisited: false},
+                    type: 'event',
+                    visible: true
+                };
+                this.newPlace = marker;
+            },
+            saveNewPlace(){
+                this.$bus.$emit('placeAdded', {data: this.newPlace});
+                this.markers.push(this.newPlace);
+                this.newPlace = null;
+            },
             // receives a place object via the autocomplete component
             setPlace(place) {
                 this.currentPlace = place;
@@ -53,12 +95,18 @@
                 if (this.currentPlace) {
                     this.$bus.$emit('placeAdded', {data: this.currentPlace});
                     const marker = {
-                        lat: this.currentPlace.geometry.location.lat(),
-                        lng: this.currentPlace.geometry.location.lng()
+                        position: {
+                          lat: this.currentPlace.geometry.location.lat(),
+                          lng: this.currentPlace.geometry.location.lng()
+                        },
+                        content: {title: this.currentPlace.name,
+                                  isVisited: false},
+                        type: 'event',
+                        visible: false
                     };
-                    this.markers.push({ position: marker });
+                    this.markers.push(marker);
                     this.places.push(this.currentPlace);
-                    this.center = marker;
+                    this.center = marker.position;
                     this.currentPlace = null;
                 }
             },
@@ -73,8 +121,13 @@
             setMarkers(places) {
                 this.markers = [];
                 for (let item of places) {
-                    const marker = JSON.parse(item.coordinates);
-                    this.markers.push({ position: marker });
+                    const marker = { position: JSON.parse(item.coordinates),
+                                    content: {title: item.name,
+                                              isVisited: (item.visited == 0)? false: true},
+                                    type:'event',
+                                    visible: false,
+                                    id: item.id};
+                    this.markers.push(marker);
                 }
             },
             concentrate(marker){
