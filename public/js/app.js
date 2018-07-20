@@ -52921,10 +52921,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.$bus.$emit('setPlaces', { data: _this.places });
         }).catch(function (resp) {
             console.log(resp);
-            alert("Could not load places");
+            alert("Could not load places"); // TODO remove alerts
         });
         this.$bus.$on('placeAdded', function (message) {
-            console.log(message);
             var coordinates = '';
             var name = '';
             if (message.data.geometry) {
@@ -52950,7 +52949,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.places.push(resp.data);
             }).catch(function (resp) {
                 console.log(resp);
-                alert("Could not create your place");
+                alert("Could not create your place"); // TODO remove alerts
             });
         });
     },
@@ -52964,7 +52963,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this2.places.splice(index, 1);
                     _this2.$bus.$emit('setPlaces', { data: _this2.places });
                 }).catch(function (resp) {
-                    alert("Could not delete place");
+                    alert("Could not delete place"); // TODO remove alerts
                 });
             }
         },

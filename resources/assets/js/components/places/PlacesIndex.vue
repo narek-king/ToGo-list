@@ -60,7 +60,7 @@
                 })
                 .catch((resp) => {
                     console.log(resp);
-                    alert("Could not load places");
+                    alert("Could not load places"); // TODO remove alerts
                 });
             this.$bus.$on('placeAdded', (message) => {
                 let coordinates = '';
@@ -90,7 +90,7 @@
                     })
                     .catch((resp) => {
                         console.log(resp);
-                        alert("Could not create your place");
+                        alert("Could not create your place"); // TODO remove alerts
                     });
             });
         },
@@ -103,7 +103,7 @@
                             this.$bus.$emit('setPlaces', {data: this.places});
                         })
                         .catch((resp) => {
-                            alert("Could not delete place");
+                            alert("Could not delete place"); // TODO remove alerts
                         });
                 }
             },
