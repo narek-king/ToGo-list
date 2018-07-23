@@ -21,4 +21,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['namespace' => 'Api\V1'], function () {
     Route::resource('places', 'PlacesController', ['except' => ['create', 'edit']]);
+    Route::get('init', 'PlacesController@init')->name('init');
+    Route::get('data', 'PlacesController@data')->name('data');
 });

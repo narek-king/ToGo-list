@@ -8,13 +8,30 @@ use Illuminate\Http\Response;
 use App\Places;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\Examples\Tables\Builders\PlaceTable;
+
+use LaravelEnso\VueDatatable\app\Traits\Datatable;
+
 
 class PlacesController extends Controller
 {
+    use Datatable;
+
+    protected $tableClass = PlaceTable::class;
+
     public function __construct()
     {
         $this->middleware('auth');
     }
+
+    public function data(Request $request)
+    {
+    }
+
+    public function init()
+    {
+    }
+
     /**
      * Display a listing of the resource.
      *

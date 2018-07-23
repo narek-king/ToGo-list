@@ -13,6 +13,13 @@ import * as VueGoogleMaps from 'vue2-google-maps';
 import PlacesIndex from './components/places/PlacesIndex.vue';
 import PlacesCreate from './components/places/PlacesCreate.vue';
 import PlacesEdit from './components/places/PlacesEdit.vue';
+import VueTable from './components/enso/vuedatatable/VueTable.vue';
+import Toastr from './components/enso/bulma/toastr';
+import fontawesome from '@fortawesome/fontawesome-free';
+import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+// import { faSearch, faSync, faAngleDown, faInfoCircle }
+//     from '@fortawesome/fontawesome-free-solid/shakable.es';
+// fontawesome.library.add(faSearch, faSync, faAngleDown, faInfoCircle);
 
 window.Vue.use(VueRouter);
 
@@ -51,6 +58,12 @@ const router = new VueRouter({ routes });
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('places-index', require('./components/places/PlacesIndex.vue'));
+Vue.component('fa', FontAwesomeIcon);
 Vue.prototype.$bus = new Vue({});
+Vue.use(Toastr, {
+    position: 'right',
+    duration: 3000,
+    closeButton: true,
+});
 
 const app = new Vue({ router }).$mount('#app');
