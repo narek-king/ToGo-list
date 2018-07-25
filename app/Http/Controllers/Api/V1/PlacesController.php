@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use App\Places;
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\Examples\Tables\Builders\PlaceTable;
+use App\PlaceTable;
 
 use LaravelEnso\VueDatatable\app\Traits\Datatable;
 
@@ -24,13 +24,13 @@ class PlacesController extends Controller
         $this->middleware('auth');
     }
 
-    public function data(Request $request)
-    {
-    }
-
-    public function init()
-    {
-    }
+//    public function data(Request $request)
+//    {
+//    }
+//
+//    public function init()
+//    {
+//    }
 
     /**
      * Display a listing of the resource.

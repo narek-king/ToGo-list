@@ -6,7 +6,7 @@
  * Time: 10:26 PM
  */
 
-namespace App\Http\Controllers\Examples\Tables\Builders;
+namespace App;
 
 use App\Places;
 use LaravelEnso\VueDatatable\app\Classes\Table;
@@ -14,7 +14,7 @@ use LaravelEnso\VueDatatable\app\Classes\Table;
 
 class PlaceTable extends Table
 {
-    protected $templatePath = __DIR__.'/../Templates/exampleTable.json';
+    protected $templatePath = __DIR__.'/../resources/assets/js/data-table-config.json';
 
     public function query()
     {

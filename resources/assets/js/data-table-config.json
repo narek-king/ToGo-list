@@ -1,5 +1,5 @@
 {
-  "routePrefix": "examples.table",
+  "routePrefix": "places",
   "readSuffix": "data",
   "name": "Enso Vue Datatable Example",
   "icon": ["fab", "vuejs"],
@@ -38,72 +38,19 @@
     {
       "label": "Name",
       "name": "name",
-      "data": "examples.name",
+      "data": "name",
       "meta": [
         "searchable",
         "sortable"
       ]
     }, {
-      "label": "Position",
-      "name": "position",
-      "data": "examples.position",
+      "label": "Coordinates",
+      "name": "coordinates",
+      "data": "coordinates",
       "meta": [
         "searchable",
         "sortable",
         "clickable"
-      ]
-    }, {
-      "label": "Seniority",
-      "name": "seniority",
-      "data": "examples.seniority",
-      "enum": "App\\Http\\Controllers\\Examples\\SeniorityEnum",
-      "meta": [
-        "sortable"
-      ]
-    }, {
-      "label": "Project",
-      "name": "project",
-      "data": "examples.project",
-      "meta": [
-        "searchable",
-        "sortable",
-        "slot"
-      ]
-    }, {
-      "label": "Salary",
-      "name": "salary",
-      "data": "examples.salary",
-      "meta": [
-        "searchable",
-        "sortable",
-        "total"
-      ],
-      "money": {}
-    }, {
-      "label": "Taxes",
-      "name": "taxes",
-      "data": "examples.taxes",
-      "meta": [
-        "searchable",
-        "sortable",
-        "total"
-      ],
-      "money": {}
-    }, {
-      "label": "Active",
-      "name": "is_active",
-      "data": "examples.is_active",
-      "meta": [
-        "boolean",
-        "sortable"
-      ]
-    }, {
-      "label": "Hired Since",
-      "name": "hired_at",
-      "data": "examples.hired_at",
-      "meta": [
-        "date",
-        "sortable"
       ]
     }
   ]

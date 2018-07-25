@@ -58,6 +58,7 @@ const router = new VueRouter({ routes });
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('places-index', require('./components/places/PlacesIndex.vue'));
+Vue.component('vur-table', require('./components/places/PlacesIndex.vue'));
 Vue.component('fa', FontAwesomeIcon);
 Vue.prototype.$bus = new Vue({});
 Vue.use(Toastr, {

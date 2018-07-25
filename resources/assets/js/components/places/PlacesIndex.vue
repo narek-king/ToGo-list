@@ -4,6 +4,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <google-map />
+                <data-table />
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
@@ -43,9 +44,11 @@
 
 <script>
     import GoogleMap from "./GoogleMap";
+    import DataTable from "./DataTable";
     export default {
         components: {
-            GoogleMap
+            GoogleMap,
+            DataTable
         },
         data: () => {
             return {
