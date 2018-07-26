@@ -10,7 +10,7 @@ namespace App;
 
 use App\Places;
 use LaravelEnso\VueDatatable\app\Classes\Table;
-
+use Illuminate\Support\Facades\Auth;
 
 class PlaceTable extends Table
 {
@@ -19,8 +19,8 @@ class PlaceTable extends Table
     public function query()
     {
         return Places::select(\DB::raw(
-            'id as "dtRowId", name, coordinates, created_at, visited'
-        ));
+            'id as "dtRowId", user_id, name, coordinates, created_at, visited'))
+            ->where('user_id', '=', Auth::id());
     }
 
 }

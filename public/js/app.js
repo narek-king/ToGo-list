@@ -58578,12 +58578,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "DataTable",
     components: {
         VueTable: __WEBPACK_IMPORTED_MODULE_0__enso_vuedatatable_VueTable_vue___default.a
+    },
+    data: function data() {
+        return {
+            key: ''
+        };
+    },
+
+    methods: {
+        edit: function edit(column, row) {
+            this.$router.push({ name: 'editPlace', params: { id: column.dtRowId } });
+        }
     }
 });
 
@@ -70768,7 +70780,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("vue-table", {
     staticClass: "box",
-    attrs: { path: "/init", id: "places" }
+    attrs: { path: "/init", id: "places" },
+    on: { edit: _vm.edit }
   })
 }
 var staticRenderFns = []

@@ -1,7 +1,8 @@
 <template>
     <vue-table class="box"
                path="/init"
-               id="places">
+               id="places"
+               @edit="edit">
     </vue-table>
 </template>
 <script>
@@ -10,6 +11,16 @@
         name: "DataTable",
         components: {
             VueTable
+        },
+        data() {
+            return{
+                key: ''
+            }
+        },
+        methods: {
+            edit(column, row) {
+                this.$router.push({name: 'editPlace', params: {id: column.dtRowId}});
+            }
         }
     }
 </script>

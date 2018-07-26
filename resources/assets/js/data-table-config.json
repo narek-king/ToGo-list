@@ -1,24 +1,9 @@
 {
   "routePrefix": "places",
   "readSuffix": "data",
-  "name": "Enso Vue Datatable Example",
-  "icon": ["fab", "vuejs"],
+  "name": "The tabale View of the places",
   "crtNo": true,
   "buttons": [
-    {
-      "type": "global",
-      "icon": "file-excel",
-      "class": "is-outlined",
-      "event": "excel",
-      "label": "Excel"
-    },
-    {
-      "type": "global",
-      "icon": "plus",
-      "class": "is-success",
-      "event": "create",
-      "label": "Create"
-    },
     {
       "type": "row",
       "icon": "pencil-alt",
@@ -41,12 +26,22 @@
       "data": "name",
       "meta": [
         "searchable",
-        "sortable"
+        "sortable",
+        "clickable"
       ]
     }, {
-      "label": "Coordinates",
-      "name": "coordinates",
-      "data": "coordinates",
+      "label": "Visited",
+      "name": "visited",
+      "data": "visited",
+      "meta": [
+        "searchable",
+        "sortable",
+        "clickable"
+      ]
+    }, {
+      "label": "createdAt",
+      "name": "created_at",
+      "data": "created_at",
       "meta": [
         "searchable",
         "sortable",
