@@ -7,11 +7,11 @@
             class="tag is-table-tag"
             :class="value ? 'is-success' : 'is-danger'">
             <span class="icon is-small">
-                <fa :icon="value ? 'check' : 'times'"/>
+                <font-awesome-icon :icon="value ? 'check' : 'times'"/>
             </span>
         </span>
         <span v-else-if="column.meta.icon && value">
-            <fa :icon="value"/>
+            <font-awesome-icon :icon="value"/>
         </span>
         <span v-else-if="column.meta.render">
             <slot name="custom-render"/>

@@ -8,7 +8,7 @@
                 <slot name="label"/>
                 <span class="icon is-small angle"
                         :aria-hidden="!show">
-                    <fa icon="angle-down"/>
+                    <font-awesome-icon icon="angle-down"/>
                 </span>
             </button>
         </div>

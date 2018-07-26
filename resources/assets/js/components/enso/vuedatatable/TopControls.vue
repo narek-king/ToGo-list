@@ -6,7 +6,7 @@
                 <h5 class="title is-5">
                     <span class="icon"
                         v-if="template.icon">
-                        <fa :icon="template.icon"/>
+                        <font-awesome-icon :icon="template.icon"/>
                     </span>
                     {{ i18n(template.name) }}
                 </h5>
@@ -25,7 +25,7 @@
                         {{ i18n(button.label) }}
                     </span>
                     <span class="icon is-small">
-                        <fa :icon="button.icon"/>
+                        <font-awesome-icon :icon="button.icon"/>
                     </span>
                     <span class="is-hidden-mobile"/>
                 </button>
@@ -41,20 +41,20 @@
                 <button class="button"
                     @click="$emit('reload')">
                     <span class="icon is-small">
-                        <fa icon="sync"/>
+                        <font-awesome-icon icon="sync"/>
                     </span>
                 </button>
                 <button class="button"
                     @click="$emit('reset')">
                     <span class="icon is-small">
-                        <fa icon="undo"/>
+                        <font-awesome-icon icon="undo"/>
                     </span>
                 </button>
                 <button class="button"
                     @click="$emit('request-full-info')"
                     v-if="info">
                     <span class="icon is-small has-text-info">
-                        <fa icon="info-circle"/>
+                        <font-awesome-icon icon="info-circle"/>
                     </span>
                 </button>
             </div>
@@ -67,7 +67,7 @@
                         @input="$emit('input', $event.target.value)"
                         :placeholder="i18n('Search')">
                     <span class="icon is-small is-left">
-                        <fa icon="search"/>
+                        <font-awesome-icon icon="search"/>
                     </span>
                     <span class="icon is-small is-right clear-button"
                         v-if="value && !loading"
@@ -102,7 +102,7 @@ export default {
     name: 'TopControls',
 
     components: {
-        LengthMenu, ColumnVisibility, StyleSelector, Modal,
+        LengthMenu, ColumnVisibility, StyleSelector, Modal
     },
 
     props: {

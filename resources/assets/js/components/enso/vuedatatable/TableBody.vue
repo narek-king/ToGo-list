@@ -13,7 +13,7 @@
                     v-if="hiddenCount"
                     @click="toggleExpand(row, index)">
                     <span class="icon is-small">
-                        <fa :icon="isExpanded(row) ? 'minus-square' : 'plus-square'"/>
+                        <font-awesome-icon :icon="isExpanded(row) ? 'minus-square' : 'plus-square'"/>
                     </span>
                 </span>
             </div>
@@ -41,7 +41,7 @@
                     v-if="cascadesHiddenControls && idx === 0"
                     @click="toggleExpand(row, index)">
                     <span class="icon is-small">
-                        <fa :icon="isExpanded(row) ? 'minus-square' : 'plus-square'"/>
+                        <font-awesome-icon :icon="isExpanded(row) ? 'minus-square' : 'plus-square'"/>
                     </span>
                 </span>
                 <span :slot="column.name"
@@ -63,7 +63,7 @@
                     :href="button.action === 'href' ? getPath(button, row.dtRowId) : null"
                     @click="button.confirmation ? showModal(button, row) : doAction(button, row)">
                     <span class="icon is-small">
-                        <fa :icon="button.icon"/>
+                        <font-awesome-icon :icon="button.icon"/>
                     </span>
                 </a>
             </span>

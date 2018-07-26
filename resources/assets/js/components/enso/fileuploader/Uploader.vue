@@ -9,7 +9,7 @@
                 <label class="file-label">
                     <span class="file-cta">
                         <span class="file-icon">
-                            <fa :icon="['fal', 'upload']"/>
+                            <font-awesome-icon :icon="['fal', 'upload']"/>
                         </span>
                         <span class="file-label is-hidden-tablet-only">
                             {{ __('File(s)') }}…

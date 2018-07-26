@@ -15,7 +15,7 @@
                 @keydown.esc="update('')"
                 @blur="dropdown=false">
             <span class="icon is-small is-left">
-                <fa icon="search"/>
+                <font-awesome-icon icon="search"/>
             </span>
             <span class="icon is-small is-right clear-button"
                 v-if="value && !loading"

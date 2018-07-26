@@ -14,6 +14,13 @@
 export default {
     name: 'RecordsInfo',
 
+//    data(){
+//        return {
+//            chunkInfo: '',
+//            fromInfo: ''
+//        }
+//    },
+
     props: {
         start: {
             type: Number,

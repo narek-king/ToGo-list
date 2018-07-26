@@ -20,13 +20,13 @@
                     <span class="icon is-small has-text-info"
                         v-if="column.tooltip"
                         v-tooltip="i18n(column.tooltip)">
-                        <fa icon="info" size="xs"/>
+                        <font-awesome-icon icon="info" size="xs"/>
                     </span>
                     <span class="sorter"
                         @click="toggleSort($event, column)"
                         v-if="column.meta.sortable">
                         <span class="icon is-small">
-                            <fa :icon="sortIcon(column.meta.sort)" size="xs"/>
+                            <font-awesome-icon :icon="sortIcon(column.meta.sort)" size="xs"/>
                         </span>
                     </span>
                     <a class="delete is-small"
@@ -48,10 +48,10 @@
 import { VTooltip } from 'v-tooltip';
 import { library } from '@fortawesome/fontawesome-svg-core'
 
-//import { faSort, faSortUp, faSortDown, faPlus, faFileExcel, faInfo }
-//    from '@fortawesome/free-solid-svg-icons';
+import { faSort, faSortUp, faSortDown, faPlus, faFileExcel, faInfo }
+    from '@fortawesome/free-solid-svg-icons';
 
-//library.add(faSort, faSortUp, faSortDown, faPlus, faFileExcel, faInfo);
+library.add(faSort, faSortUp, faSortDown, faPlus, faFileExcel, faInfo);
 
 export default {
     name: 'Header',

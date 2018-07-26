@@ -6,7 +6,7 @@
             <p class="card-header-title">
                 <span class="icon is-small has-margin-right-small"
                     v-if="icon">
-                    <fa :icon="icon"/>
+                    <font-awesome-icon :icon="icon"/>
                 </span>
                 <span class="is-clickable"
                     @click="toggle()"
@@ -23,7 +23,7 @@
                         v-model="query"
                         @input="$emit('query-update', query)">
                     <span class="icon is-small is-left">
-                        <fa icon="search"/>
+                        <font-awesome-icon icon="search"/>
                     </span>
                 </p>
             </div>
@@ -39,7 +39,7 @@
                 v-if="refresh"
                 @click="$emit('refresh')">
                 <span class="icon is-small">
-                    <fa icon="sync"/>
+                    <font-awesome-icon icon="sync"/>
                 </span>
             </card-control>
             <card-control
@@ -47,7 +47,7 @@
                 @click="toggle()">
                 <span class="icon angle"
                     :aria-hidden="!expanded">
-                    <fa icon="angle-down"/>
+                    <font-awesome-icon icon="angle-down"/>
                 </span>
             </card-control>
             <card-control

@@ -11,13 +11,13 @@
             <button class="button is-small is-success has-margin-right-medium"
                 @click="$refs.dialog.hide();$emit('confirm')">
                 <span class="icon is-small">
-                    <fa icon="check"/>
+                    <font-awesome-icon icon="check"/>
                 </span>
             </button>
             <button class="button is-small is-danger"
                 @click="$refs.dialog.hide();$emit('cancel')">
                 <span class="icon is-small">
-                    <fa icon="times"/>
+                    <font-awesome-icon icon="times"/>
                 </span>
             </button>
         </template>

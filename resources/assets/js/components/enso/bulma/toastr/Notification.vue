@@ -19,7 +19,7 @@
              <article class="media">
                 <div class="media-left">
                     <span class="icon is-large">
-                        <fa :icon="icons[type]" size="2x"/>
+                        <font-awesome-icon :icon="icons[type]" size="2x"/>
                     </span>
                 </div>
                 <div class="media-content">
