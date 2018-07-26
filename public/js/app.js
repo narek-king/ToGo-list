@@ -70827,112 +70827,13 @@ var render = function() {
       _c(
         "div",
         { staticClass: "panel-body" },
-        [
-          _c("google-map"),
-          _vm._v(" "),
-          _c("data-table"),
-          _vm._v(" "),
-          _c("table", { staticClass: "table table-bordered table-striped" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.places, function(place, index) {
-                return _c("tr", [
-                  _c("td", [_vm._v(_vm._s(place.name))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(place.visited === "1" ? "visited" : "not visited")
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(place.created_at))]),
-                  _vm._v(" "),
-                  _c(
-                    "td",
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "btn btn-xs btn-default",
-                          attrs: {
-                            to: { name: "editPlace", params: { id: place.id } }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                            Edit\n                        "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-xs btn-danger",
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              _vm.deleteEntry(place.id, index)
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                            Delete\n                        "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              _vm.showOnMap(place)
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                            Show on the Map\n                        "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                ])
-              })
-            )
-          ])
-        ],
+        [_c("google-map"), _vm._v(" "), _c("data-table")],
         1
       )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Visited")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("createdAt")]),
-        _vm._v(" "),
-        _c("th", { attrs: { width: "100" } }, [_vm._v(" ")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

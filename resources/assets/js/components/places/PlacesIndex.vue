@@ -5,38 +5,38 @@
             <div class="panel-body">
                 <google-map />
                 <data-table />
-                <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Visited</th>
-                        <th>createdAt</th>
-                        <th width="100">&nbsp;</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="place, index in places">
-                        <td>{{ place.name }}</td>
-                        <td>{{ (place.visited === '1')? 'visited': 'not visited' }}</td>
-                        <td>{{ place.created_at }}</td>
-                        <td>
-                            <router-link :to="{name: 'editPlace', params: {id: place.id}}" class="btn btn-xs btn-default">
-                                Edit
-                            </router-link>
-                            <a href="#"
-                               class="btn btn-xs btn-danger"
-                               v-on:click="deleteEntry(place.id, index)">
-                                Delete
-                            </a>
-                            <a href="#"
-                               class="btn btn-primary"
-                               v-on:click="showOnMap(place)">
-                                Show on the Map
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <!--<table class="table table-bordered table-striped">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                        <!--<th>Name</th>-->
+                        <!--<th>Visited</th>-->
+                        <!--<th>createdAt</th>-->
+                        <!--<th width="100">&nbsp;</th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody>-->
+                    <!--<tr v-for="place, index in places">-->
+                        <!--<td>{{ place.name }}</td>-->
+                        <!--<td>{{ (place.visited === '1')? 'visited': 'not visited' }}</td>-->
+                        <!--<td>{{ place.created_at }}</td>-->
+                        <!--<td>-->
+                            <!--<router-link :to="{name: 'editPlace', params: {id: place.id}}" class="btn btn-xs btn-default">-->
+                                <!--Edit-->
+                            <!--</router-link>-->
+                            <!--<a href="#"-->
+                               <!--class="btn btn-xs btn-danger"-->
+                               <!--v-on:click="deleteEntry(place.id, index)">-->
+                                <!--Delete-->
+                            <!--</a>-->
+                            <!--<a href="#"-->
+                               <!--class="btn btn-primary"-->
+                               <!--v-on:click="showOnMap(place)">-->
+                                <!--Show on the Map-->
+                            <!--</a>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                <!--</table>-->
             </div>
         </div>
     </div>
