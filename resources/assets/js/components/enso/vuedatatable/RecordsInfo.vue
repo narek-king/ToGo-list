@@ -47,19 +47,19 @@ export default {
         },
         filteredInfo() {
             return this.body.filters
-                ? `${this.i18n('of')} ${this.body.fullRecordInfo ? this.body.filtered : '...'} \
-                 ${this.i18n('entries')}`
-                : `${this.i18n('of')} ${this.body.count} ${this.i18n('entries')}`;
+                ? `of ${this.body.fullRecordInfo ? this.body.filtered : '...'} \
+                 entries`
+                : `of ${this.body.count} entries`;
         },
         chunkInfo() {
             return this.hasRecords
-                ? `${this.i18n('From')} ${this.startInfo} ${this.i18n('to')} \
+                ? `From ${this.startInfo} to \
                 ${this.start + this.body.data.length} \
                 ${this.filteredInfo}`
-                : this.i18n('No records were found');
+                : 'No records were found';
         },
         fromInfo() {
-            return `(${this.i18n('filtered from')} ${this.body.count} ${this.i18n('total records')})`;
+            return `(filtered from ${this.body.count} total records)`;
         },
     },
 };

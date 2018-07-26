@@ -69590,13 +69590,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.hasRecords ? this.start + 1 : 0;
         },
         filteredInfo: function filteredInfo() {
-            return this.body.filters ? this.i18n('of') + ' ' + (this.body.fullRecordInfo ? this.body.filtered : '...') + '                  ' + this.i18n('entries') : this.i18n('of') + ' ' + this.body.count + ' ' + this.i18n('entries');
+            return this.body.filters ? 'of ' + (this.body.fullRecordInfo ? this.body.filtered : '...') + '                  entries' : 'of ' + this.body.count + ' entries';
         },
         chunkInfo: function chunkInfo() {
-            return this.hasRecords ? this.i18n('From') + ' ' + this.startInfo + ' ' + this.i18n('to') + '                 ' + (this.start + this.body.data.length) + '                 ' + this.filteredInfo : this.i18n('No records were found');
+            return this.hasRecords ? 'From ' + this.startInfo + ' to                 ' + (this.start + this.body.data.length) + '                 ' + this.filteredInfo : 'No records were found';
         },
         fromInfo: function fromInfo() {
-            return '(' + this.i18n('filtered from') + ' ' + this.body.count + ' ' + this.i18n('total records') + ')';
+            return '(filtered from ' + this.body.count + ' total records)';
         }
     }
 });
