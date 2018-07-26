@@ -15,7 +15,6 @@
       "icon": "trash-alt",
       "class": "is-danger",
       "event": "destroy",
-      "confirmation" : true,
       "message" : "This is your custom confirmation. Are you sure?"
     }
   ],
@@ -34,7 +33,6 @@
       "name": "visited",
       "data": "visited",
       "meta": [
-        "searchable",
         "sortable",
         "clickable"
       ]

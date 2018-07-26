@@ -58241,7 +58241,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
         this.$bus.$on('showMarker', function (data) {
             var marker = _this.markers.find(function (x) {
-                return x.id === data.place.id;
+                return x.id == data;
             });
             _this.center = marker.position;
             _this.zoom = 7;
@@ -58579,6 +58579,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -58588,13 +58596,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            key: ''
+            visitedOptions: [{ value: 1, label: 'check', class: 'has-text-success' }, { value: 0, label: 'times', class: 'has-text-danger' }]
         };
     },
 
     methods: {
         edit: function edit(column, row) {
             this.$router.push({ name: 'editPlace', params: { id: column.dtRowId } });
+        },
+        destroy: function destroy(column, row) {
+            if (confirm("Do you really want to delete it?")) {
+                axios.delete('/places/' + column.dtRowId).then(function (resp) {
+                    console.log('deleted');
+                }).catch(function (resp) {
+                    alert("Could not delete place"); // TODO remove alerts
+                });
+            }
+        },
+        clicked: function clicked(column) {
+            this.$bus.$emit('showMarker', column.row.dtRowId);
         }
     }
 });
@@ -70781,7 +70801,7 @@ var render = function() {
   return _c("vue-table", {
     staticClass: "box",
     attrs: { path: "/init", id: "places" },
-    on: { edit: _vm.edit }
+    on: { edit: _vm.edit, destroy: _vm.destroy, clicked: _vm.clicked }
   })
 }
 var staticRenderFns = []
