@@ -8,6 +8,20 @@ The coordinates of the place is just a string but it should be a geo-spatial fie
 The app uses simple session base authentication but the repo has a branch where the authentication is planed to be a JSON WEB Token.
 Future work includes filtering, sorting, searching and pagination of the table of places.
 
+## The list of the places in data table
+
+The data table is available on branch `origin/enso-datatable`.
+You can chackut to that branch and see
+- search over the places
+- sorting
+- pagination
+
+there are some future work on `origin/enso-datatable` branch
+
+- Delete method doesn't remove the line but removes from DB so need to update table after delete
+- show the place on the map taks place by clicking on the row but it doesn't scroll to the map
+- some code cleanup 
+
 ## Setup
 
 For setup you must have 
